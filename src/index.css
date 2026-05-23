@@ -1,0 +1,52 @@
+@import '@blinkdotnew/ui/styles';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 13%;
+  --primary: 149 60% 45%; /* #2eb872 */
+  --primary-foreground: 0 0% 100%;
+  --accent: 0 0% 92%;
+  --ring: 149 60% 45%;
+  
+  --home-bg: 0 0% 0%;
+  --home-text: 0 0% 100%;
+  
+  --font-logo: 'Work Sans', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+}
+
+:root.dark {
+  --background: 0 0% 9%;
+  --foreground: 0 0% 95%;
+  --primary: 149 60% 60%;
+  --primary-foreground: 0 0% 10%;
+  --accent: 0 0% 20%;
+  --ring: 149 60% 60%;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+.font-logo {
+  font-family: var(--font-logo);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Custom styles for the clone */
+.hero-gradient {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+}
+
+.section-padding {
+  @apply py-20 px-4 md:px-8;
+}
