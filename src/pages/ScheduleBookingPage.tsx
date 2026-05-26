@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@blinkdotnew/ui';
-import { Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Lock } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Link } from '@tanstack/react-router';
 
 export function ScheduleBookingPage() {
+  const { isAuthenticated } = useAuth();
   const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
     "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
@@ -54,8 +57,25 @@ export function ScheduleBookingPage() {
               <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100"
+                className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden"
               >
+                {!isAuthenticated && (
+                  <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] flex items-center justify-center p-6 text-center">
+                    <div className="bg-[#171313] text-white p-8 rounded-[2rem] shadow-2xl max-w-sm">
+                      <Lock className="mx-auto mb-4 text-primary" size={32} />
+                      <h4 className="text-xl font-bold mb-2 uppercase">Account Required</h4>
+                      <p className="text-gray-400 text-sm mb-6">Please login or create an account to schedule a booking.</p>
+                      <div className="flex flex-col gap-3">
+                        <Link to="/login">
+                          <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest">Login</Button>
+                        </Link>
+                        <Link to="/register">
+                          <Button variant="ghost" className="w-full text-white hover:text-primary uppercase tracking-widest text-xs">Create Account</Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <form className="space-y-8">
                   <div className="space-y-4">
                     <h3 className="text-xl font-bold flex items-center gap-2">
@@ -94,3 +114,4 @@ export function ScheduleBookingPage() {
     </div>
   );
 }
+

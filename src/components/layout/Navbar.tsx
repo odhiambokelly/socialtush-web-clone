@@ -1,11 +1,14 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Button } from '@blinkdotnew/ui';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   const navLinks = [
     { label: 'Home', href: '/' },
@@ -19,6 +22,11 @@ export function Navbar() {
     { label: 'Blog', href: '/blog' },
     { label: 'Schedule Booking', href: '/schedule-booking' },
   ];
+
+  const handleLogout = async () => {
+    await logout();
+    navigate({ to: '/' });
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#171313] text-white shadow-md">
@@ -50,17 +58,38 @@ export function Navbar() {
               <Link to="/password-generator" className="text-sm font-medium hover:text-primary uppercase tracking-wider">
                 PassWord Generator
               </Link>
-              <Button variant="ghost" size="icon" className="text-white hover:text-primary">
-                <User size={20} />
-              </Button>
+              {isAuthenticated ? (
+                <div className="flex items-center gap-2">
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs font-bold text-primary truncate max-w-[100px]">{user?.displayName || user?.email}</span>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={handleLogout} className="text-white hover:text-red-500">
+                    <LogOut size={20} />
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/login">
+                  <Button variant="ghost" size="icon" className="text-white hover:text-primary">
+                    <User size={20} />
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="text-white hover:text-primary">
-              <User size={20} />
-            </Button>
+            {isAuthenticated ? (
+              <Button variant="ghost" size="icon" onClick={handleLogout} className="text-white hover:text-red-500">
+                <LogOut size={20} />
+              </Button>
+            ) : (
+              <Link to="/login">
+                <Button variant="ghost" size="icon" className="text-white hover:text-primary">
+                  <User size={20} />
+                </Button>
+              </Link>
+            )}
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className="text-white p-2"
@@ -94,6 +123,11 @@ export function Navbar() {
           >
             PassWord Generator
           </Link>
+          {isAuthenticated && (
+            <div className="py-3 text-sm font-bold text-primary uppercase tracking-wider border-t border-white/5">
+              Signed in as: {user?.displayName || user?.email}
+            </div>
+          )}
         </div>
       </div>
     </nav>

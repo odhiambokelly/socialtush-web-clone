@@ -1,7 +1,12 @@
 import { motion } from 'framer-motion';
 import { Button, Input, Textarea, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@blinkdotnew/ui';
+import { useAuth } from '@/hooks/useAuth';
+import { Link } from '@tanstack/react-router';
+import { Lock } from 'lucide-react';
 
 export function AffiliateSection() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <section id="affiliate" className="section-padding bg-background">
       <div className="container mx-auto">
@@ -41,8 +46,25 @@ export function AffiliateSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100"
+            className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden"
           >
+            {!isAuthenticated && (
+              <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] flex items-center justify-center p-6 text-center">
+                <div className="bg-[#171313] text-white p-8 rounded-[2rem] shadow-2xl max-w-sm">
+                  <Lock className="mx-auto mb-4 text-primary" size={32} />
+                  <h4 className="text-xl font-bold mb-2 uppercase">Account Required</h4>
+                  <p className="text-gray-400 text-sm mb-6">Please login or create an account to join our affiliate program.</p>
+                  <div className="flex flex-col gap-3">
+                    <Link to="/login">
+                      <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest">Login</Button>
+                    </Link>
+                    <Link to="/register">
+                      <Button variant="ghost" className="w-full text-white hover:text-primary uppercase tracking-widest text-xs">Create Account</Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
             <form className="space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Full Name *</label>
@@ -102,3 +124,4 @@ export function AffiliateSection() {
     </section>
   );
 }
+

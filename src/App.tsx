@@ -11,6 +11,8 @@ import { BlogPage } from './pages/BlogPage';
 import { ScheduleBookingPage } from './pages/ScheduleBookingPage';
 import { PasswordGeneratorPage } from './pages/PasswordGeneratorPage';
 import { PostPage } from './pages/PostPage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { CookieConsent } from './components/layout/CookieConsent';
@@ -38,6 +40,8 @@ const refundPolicyRoute = createRoute({ getParentRoute: () => rootRoute, path: '
 const affiliateRoute = createRoute({ getParentRoute: () => rootRoute, path: '/affiliate', component: AffiliatePage });
 const blogRoute = createRoute({ getParentRoute: () => rootRoute, path: '/blog', component: BlogPage });
 const postRoute = createRoute({ getParentRoute: () => rootRoute, path: '/blog/$id', component: PostPage });
+const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login', component: LoginPage });
+const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/register', component: RegisterPage });
 const scheduleBookingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/schedule-booking', component: ScheduleBookingPage });
 const passwordGeneratorRoute = createRoute({ getParentRoute: () => rootRoute, path: '/password-generator', component: PasswordGeneratorPage });
 
@@ -52,6 +56,8 @@ const routeTree = rootRoute.addChildren([
   affiliateRoute,
   postRoute,
   blogRoute,
+  loginRoute,
+  registerRoute,
   scheduleBookingRoute,
   passwordGeneratorRoute,
 ]);
